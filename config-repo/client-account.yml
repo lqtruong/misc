@@ -1,0 +1,16 @@
+spring:
+  application.name: client-account
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://host.docker.internal:3306/loadbalancing
+    username: root
+    password: 123456@A
+  jpa:
+    show-sql: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${eureka_server_url:http://host.docker.internal:8761}/eureka/
+  instance:
+    statusPageUrl: http://localhost:8580/client-account/actuator/health

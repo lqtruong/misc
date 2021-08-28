@@ -21,6 +21,11 @@
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <projectlombok.version>1.18.20</projectlombok.version>
         <mybatis-plus.version>3.4.3.1</mybatis-plus.version>
+        <springdoc.version>1.5.10</springdoc.version>
+        <springfox-core.version>3.0.0</springfox-core.version>
+        <openapi-generator.version>5.1.0</openapi-generator.version>
+        <swagger-parser.version>2.0.27</swagger-parser.version>
+        <swagger-annotations.version>2.1.10</swagger-annotations.version>
     </properties>
     <dependencies>
         <dependency>
@@ -66,6 +71,27 @@
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
         </dependency>
+        <!-- Open API generator -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger.parser.v3</groupId>
+            <artifactId>swagger-parser</artifactId>
+            <version>${swagger-parser.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-annotations.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-core</artifactId>
+            <version>${springfox-core.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -103,6 +129,45 @@
                         <!-- other annotation processors -->
                     </annotationProcessorPaths>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi-generator.version}</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/api.yml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <library>spring-boot</library>
+                            <typeMappings>
+                                <typeMapping>OffsetDateTime=LocalDateTime</typeMapping>
+                            </typeMappings>
+                            <importMappings>
+                                <importMapping>java.time.OffsetDateTime=java.time.LocalDateTime</importMapping>
+                            </importMappings>
+                            <configOptions>
+                                <dateLibrary>java8</dateLibrary>
+                                <interfaceOnly>true</interfaceOnly>
+                                <useTags>true</useTags>
+                                <openApiNullable>false</openApiNullable>
+                                <skipDefaultInterface>true</skipDefaultInterface>
+                                <sortModelPropertiesByRequiredFlag>false</sortModelPropertiesByRequiredFlag>
+                                <sortParamsByRequiredFlag>false</sortParamsByRequiredFlag>
+                                <generatePom>false</generatePom>
+                                <useBeanValidation>false</useBeanValidation>
+                            </configOptions>
+                            <skipValidateSpec>true</skipValidateSpec>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <apiPackage>com.turong.training.rest.web.api</apiPackage>
+                            <modelPackage>com.turong.training.rest.web.vo</modelPackage>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

@@ -1,0 +1,39 @@
+spring:
+  r2dbc:
+    host: localhost
+    port: 3306
+    database: webflux
+    url: r2dbc:pool:mysql://localhost:3306/webflux
+    username: root
+    password: 123456@A
+    connectTimeout: 3000
+    pool:
+      enabled: true
+      maxIdleTime: 1000
+      maxSize: 20
+
+logging:
+  level:
+    com.turong.training.webflux: DEBUG
+    org.springframework,data.r2dbc: DEBUG
+
+---
+spring:
+  profiles: docker
+  r2dbc:
+    host: host.docker.internal
+    port: 3306
+    database: webflux
+    url: r2dbc:pool:mysql://host.docker.internal:3306/webflux
+    username: root
+    password: 123456@A
+    connectTimeout: 3000
+    pool:
+      enabled: true
+      maxIdleTime: 1000
+      maxSize: 20
+
+logging:
+  level:
+    com.turong.training.webflux: INFO
+    org.springframework,data.r2dbc: INFO

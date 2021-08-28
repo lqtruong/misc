@@ -33,7 +33,7 @@ public class MybatisConfig {
                 String currentTenant = AppContextHolder.getTenant();
                 log.info("Current tenant ={}", currentTenant);
                 if (StringUtils.isBlank(currentTenant)) {
-                    return null;
+                    return new StringValue("");
                     // throw new IllegalArgumentException("The tenant must be present!");
                 }
                 return new StringValue(currentTenant);
@@ -48,6 +48,7 @@ public class MybatisConfig {
             public String getTenantIdColumn() {
                 return TENANT_COLUMN;
             }
+
 
         }));
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));

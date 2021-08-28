@@ -2,6 +2,8 @@ package com.turong.training.rest.service;
 
 import com.turong.training.rest.entity.User;
 
+import java.util.List;
+
 public interface UserService {
 
     User getUser(String id);
@@ -11,5 +13,7 @@ public interface UserService {
     int deleteByEmail(String email);
 
     int deleteById(String id);
+
+    List<User> getAll();
 
 }

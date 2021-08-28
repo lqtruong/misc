@@ -1,10 +1,13 @@
 package com.turong.training.rest.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.turong.training.rest.entity.User;
 import com.turong.training.rest.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,6 +49,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public int deleteById(String id) {
         return userMapper.deleteById(id);
+    }
+
+    @Override
+    public List<User> getAll() {
+        QueryWrapper<User> query = Wrappers.query();
+        return userMapper.selectList(query);
     }
 
 }

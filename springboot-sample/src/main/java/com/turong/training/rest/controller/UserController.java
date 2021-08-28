@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("users")
 @Slf4j
@@ -50,6 +53,13 @@ public class UserController {
             throw new IllegalArgumentException("Id to delete must be present!");
         }
         userService.deleteById(id);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        log.debug("Get all users");
+        return ResponseEntity.ok(
+                userService.getAll().stream().map(userConvert::toResponse).collect(Collectors.toList()));
     }
 
 }

@@ -1,8 +1,13 @@
 package com.turong.training.rest.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.turong.training.rest.convert.UserConvert;
+import com.turong.training.rest.entity.User;
 import com.turong.training.rest.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -60,6 +65,37 @@ public class UserController {
         log.debug("Get all users");
         return ResponseEntity.ok(
                 userService.getAll().stream().map(userConvert::toResponse).collect(Collectors.toList()));
+    }
+
+    @PostMapping("/insert-batch")
+    public ResponseEntity<Integer> insertBatch(@RequestBody List<UserSaveRequest> users) {
+        log.debug("Insert batch of users={}", users);
+        if (CollectionUtils.isEmpty(users)) {
+            return ResponseEntity.ok(0);
+        }
+        return ResponseEntity.ok(userService.saveBatch(users.stream().map(userConvert::toUser).collect(Collectors.toList())));
+    }
+
+    @GetMapping("/paged")
+    public ResponseEntity<IPage<UserResponse>> getPaged(UserSearchRequest searchRequest) {
+        log.debug("Search paged users={}", searchRequest);
+        IPage<User> paged = new Page<>(searchRequest.getPage(), searchRequest.getRows());
+        paged.orders().add(OrderItem.desc("created_at"));
+        paged.orders().add(OrderItem.desc("id"));
+        return ResponseEntity.ok(
+                userService
+                        .searchPagedUsers(paged, userConvert.toSearchCriteria(searchRequest))
+                        .convert(userConvert::toResponse));
+    }
+
+    @PostMapping("/update-batch")
+    public ResponseEntity<Integer> updateBatch(@RequestBody List<UserSaveRequest> users) {
+        log.debug("Update batch users={}", users);
+        if (CollectionUtils.isEmpty(users)) {
+            return ResponseEntity.ok(0);
+        }
+        return ResponseEntity.ok(
+                userService.updateBatch(users.stream().map(userConvert::toUser).collect(Collectors.toList())));
     }
 
 }

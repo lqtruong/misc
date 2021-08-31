@@ -1,6 +1,7 @@
 package com.turong.training.rest.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.turong.training.rest.entity.User;
 import com.turong.training.rest.mapper.UserMapper;
@@ -56,5 +57,23 @@ public class UserServiceImpl implements UserService {
         QueryWrapper<User> query = Wrappers.query();
         return userMapper.selectList(query);
     }
+
+    @Override
+    public int saveBatch(List<User> usersToCreate) {
+        return userMapper.insertBatch(usersToCreate);
+    }
+
+    @Override
+    public IPage<User> searchPagedUsers(IPage<User> paged, UserSearchCriteria searchCriteria) {
+        QueryWrapper<User> wrapper = Wrappers.query();
+        wrapper.like("username", searchCriteria.getName());
+        return userMapper.selectPage(paged, wrapper);
+    }
+
+    @Override
+    public int updateBatch(List<User> usersToUpdate) {
+        return userMapper.updateBatch(usersToUpdate);
+    }
+
 
 }

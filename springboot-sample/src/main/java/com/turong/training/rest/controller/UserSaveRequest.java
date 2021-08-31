@@ -24,6 +24,7 @@ public class UserSaveRequest implements WebRequest {
     private String username;
     private String email;
     private String tenant;
+    private String feedback;
 
     @JsonIgnore
     public boolean hasUsername() {

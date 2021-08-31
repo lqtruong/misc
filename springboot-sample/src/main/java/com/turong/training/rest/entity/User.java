@@ -4,11 +4,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Id;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -21,12 +19,10 @@ public class User {
     private Long id;
     private String username;
     private String email;
-    private String tenant;
+    private String tenantId;
+    private String feedback;
 
-    @CreatedDate
-    private LocalDate createdAt;
-
-    @LastModifiedDate
-    private LocalDate modifiedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
 
 }

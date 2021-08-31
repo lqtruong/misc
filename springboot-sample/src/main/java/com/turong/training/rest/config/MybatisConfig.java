@@ -22,7 +22,7 @@ import java.util.Properties;
 @Log4j2
 public class MybatisConfig {
 
-    private static final String TENANT_COLUMN = "tenant";
+    private static final String TENANT_COLUMN = "tenant_id";
 
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
@@ -34,7 +34,6 @@ public class MybatisConfig {
                 log.info("Current tenant ={}", currentTenant);
                 if (StringUtils.isBlank(currentTenant)) {
                     return new StringValue("");
-                    // throw new IllegalArgumentException("The tenant must be present!");
                 }
                 return new StringValue(currentTenant);
             }
